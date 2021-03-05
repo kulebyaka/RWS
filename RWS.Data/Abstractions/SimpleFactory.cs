@@ -5,11 +5,11 @@ namespace RWS.Data.Abstractions
 {
 	public class SimpleFactory<TParam, TOut> : IFactory<TParam, TOut>, IFactoryInfo<TParam>
 	{
-		protected IDictionary<TParam, Func<TOut>> factoryMap;
+		private readonly IDictionary<TParam, Func<TOut>> _factoryMap;
 
 		public SimpleFactory(IDictionary<TParam, Func<TOut>> factoryMap)
 		{
-			this.factoryMap = factoryMap ?? throw new ArgumentNullException(nameof(factoryMap));
+			this._factoryMap = factoryMap ?? throw new ArgumentNullException(nameof(factoryMap));
 		}
 
 		protected internal SimpleFactory()
@@ -23,9 +23,9 @@ namespace RWS.Data.Abstractions
 		/// <returns></returns>
 		public virtual TOut Create(TParam param)
 		{
-			return factoryMap.ContainsKey(param) ? factoryMap[param]() : default(TOut);
+			return _factoryMap.ContainsKey(param) ? _factoryMap[param]() : default(TOut);
 		}
 
-		public IEnumerable<TParam> Keys => factoryMap.Keys;
+		public IEnumerable<TParam> Keys => _factoryMap.Keys;
 	}
 }

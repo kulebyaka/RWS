@@ -1,4 +1,4 @@
-﻿namespace RWS.Data.Serializers
+﻿namespace RWS.Data.Abstractions
 {
 	public interface IFactory<in TParam, out TOut>
 	{
