@@ -36,7 +36,7 @@ namespace RWS.Test
 			string x = _dataSerializer.Serialize(_serializableObject);
 			XDocument xDocument = XDocument.Parse(x);
 			xDocument.Should().HaveRoot(nameof(SerializerTestClass));
-			XElement? xElement = xDocument.Root;
+			XElement xElement = xDocument.Root;
 			xElement.Should().HaveElement(nameof(_serializableObject.PropInt))
 				.Subject.Value.Should().Match(_serializableObject.PropInt.ToString());
 			xElement.Should().HaveElement(nameof(_serializableObject.PropString))

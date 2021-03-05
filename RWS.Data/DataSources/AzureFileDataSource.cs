@@ -34,7 +34,7 @@ namespace RWS.Data.DataSources
 			using FileStream stream = File.OpenWrite(_path);
 			download.Content.CopyTo(stream);
 
-			var reader = new StreamReader(stream);
+			using var reader = new StreamReader(stream);
 			string text = reader.ReadToEnd();
 			return text;
 		}
@@ -58,8 +58,8 @@ namespace RWS.Data.DataSources
 
 		private static Stream GenerateStreamFromString(string s)
 		{
-			var stream = new MemoryStream();
-			var writer = new StreamWriter(stream);
+			using var stream = new MemoryStream();
+			using var writer = new StreamWriter(stream);
 			writer.Write(s);
 			writer.Flush();
 			stream.Position = 0;
