@@ -10,15 +10,9 @@ namespace RWS.ConsoleApp
 		public string OutputPath { get; set; }
 		public string AzureConnectionString { get; set; }
 
-		public DataSerializerType InputFileType
-		{
-			get { return DataSerializerType(InputPath); }
-		}
-		
-		public DataSerializerType OutputFileType
-		{
-			get { return DataSerializerType(OutputPath); }
-		}
+		public DataSerializerType InputFileType => DataSerializerType(InputPath);
+
+		public DataSerializerType OutputFileType => DataSerializerType(OutputPath);
 
 		private DataSerializerType DataSerializerType(string path)
 		{

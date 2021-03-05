@@ -4,11 +4,13 @@ namespace RWS.Data.DataSources
 {
 	public class FileSystemDataSource : IDataSource
 	{
-		private string path;
+		private readonly string path;
+
 		public FileSystemDataSource(string path)
 		{
 			this.path = path;
 		}
+
 		public string GetData()
 		{
 			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);

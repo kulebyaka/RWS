@@ -7,15 +7,14 @@ namespace RWS.Data.DataSources
 {
 	public class AzureFileDataSource : IDataSource
 	{
-
-		private readonly string _connectionString;
-		private readonly string _path;
-		
 		// TODO[EK]: shareName => settings
 		private const string ShareName = "sample-share";
 		private const string DefaultDirName = "DefaultDirName";
 		private string DirName => new FileInfo(_path).Directory?.Name ?? DefaultDirName;
 		private string FileName => Path.GetFileName(_path);
+
+		private readonly string _connectionString;
+		private readonly string _path;
 
 		public AzureFileDataSource(string path, string appSettingsAzureConnectionString)
 		{
@@ -34,8 +33,8 @@ namespace RWS.Data.DataSources
 			ShareFileDownloadInfo download = file.Download();
 			using FileStream stream = File.OpenWrite(_path);
 			download.Content.CopyTo(stream);
-			
-			var reader = new StreamReader( stream );
+
+			var reader = new StreamReader(stream);
 			string text = reader.ReadToEnd();
 			return text;
 		}
@@ -56,7 +55,7 @@ namespace RWS.Data.DataSources
 			file.Create(stream.Length);
 			file.UploadRange(new HttpRange(0, stream.Length), stream);
 		}
-		
+
 		private static Stream GenerateStreamFromString(string s)
 		{
 			var stream = new MemoryStream();

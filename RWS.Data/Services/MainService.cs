@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using RWS.Data.Abstractions;
+﻿using RWS.Data.Abstractions;
 using RWS.Data.DataSources;
 using RWS.Data.Models;
 using RWS.Data.Serializers;
@@ -10,13 +8,13 @@ namespace RWS.Data.Services
 	public class MainService : IMainService
 	{
 		private readonly IFactory<DataSerializerType, IDataSerializer> _dataSerialzeFactory;
-		
+
 		private readonly IDataSourceReader _dataSourceReader;
 		private readonly IDataSourceWriter _dataSourceWriter;
 		private readonly IInputSettings _inputTypeSettings;
 		private readonly IOutputSettings _outputTypeSettings;
 
-		public MainService(IFactory<DataSerializerType, IDataSerializer> dataSerialzeFactory, 
+		public MainService(IFactory<DataSerializerType, IDataSerializer> dataSerialzeFactory,
 			IDataSourceReader dataSourceReader, IDataSourceWriter dataSourceWriter, IInputSettings inputTypeSettings, IOutputSettings outputTypeSettings)
 		{
 			_dataSerialzeFactory = dataSerialzeFactory;
@@ -39,7 +37,7 @@ namespace RWS.Data.Services
 	{
 		DataSerializerType Type { get; set; }
 	}
-	
+
 	public interface IInputSettings : ITypeSettings
 	{
 	}
@@ -48,13 +46,13 @@ namespace RWS.Data.Services
 	{
 		public DataSerializerType Type { get; set; }
 	}
+
 	public interface IOutputSettings : ITypeSettings
 	{
 	}
-	
+
 	public class OutputSettings : IOutputSettings
 	{
 		public DataSerializerType Type { get; set; }
 	}
-	
 }

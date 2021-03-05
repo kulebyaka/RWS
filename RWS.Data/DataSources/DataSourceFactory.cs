@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using RWS.Data.Abstractions;
-using RWS.Data.Serializers;
 
 namespace RWS.Data.DataSources
 {

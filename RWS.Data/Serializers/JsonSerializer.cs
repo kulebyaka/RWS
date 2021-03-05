@@ -10,7 +10,7 @@ namespace RWS.Data.Serializers
 			if (string.IsNullOrWhiteSpace(serializedData))
 				return null;
 
-			return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(serializedData);
+			return JsonConvert.DeserializeObject<T>(serializedData);
 		}
 
 		public string Serialize(object data)
@@ -21,7 +21,7 @@ namespace RWS.Data.Serializers
 			jsonSettings.NullValueHandling = NullValueHandling.Ignore;
 			jsonSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-			return Newtonsoft.Json.JsonConvert.SerializeObject(data, jsonSettings);
+			return JsonConvert.SerializeObject(data, jsonSettings);
 		}
 	}
 }

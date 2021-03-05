@@ -1,19 +1,19 @@
 ﻿namespace RWS.Data.DataSources
 {
-	public interface IDataSource: IDataSourceReader, IDataSourceWriter
+	public interface IDataSource : IDataSourceReader, IDataSourceWriter
 	{
 	}
 
-	public interface IDataSourceReader 
+	public interface IDataSourceReader
 	{
 		string GetData();
 	}
-	
-	public interface IDataSourceWriter 
+
+	public interface IDataSourceWriter
 	{
 		void WriteData(string data);
 	}
-	
+
 	public enum DataSourceType
 	{
 		FileSystem,

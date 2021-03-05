@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 
 namespace RWS.Data.Serializers
 {
+	// TODO[EK]: Add encoding Settings
 	public class XmlSerializer : IDataSerializer
 	{
 		public string Serialize(object data)
@@ -23,7 +24,7 @@ namespace RWS.Data.Serializers
 			var rdr = new StringReader(serializedData);
 			var xsSubmit = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-			return (T)xsSubmit.Deserialize(rdr);
+			return (T) xsSubmit.Deserialize(rdr);
 		}
 	}
 }
