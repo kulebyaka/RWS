@@ -22,7 +22,7 @@ namespace RWS.ConsoleApp
 
 		private DataSerializerType DataSerializerType(string path)
 		{
-			bool success = Enum.TryParse(Path.GetExtension(path), ignoreCase: true, out DataSerializerType myStatus);
+			bool success = Enum.TryParse(Path.GetExtension(path).Substring(1), ignoreCase: true, out DataSerializerType myStatus);
 			if (!success)
 				throw new Exception("Unsupported file extension");
 			return myStatus;

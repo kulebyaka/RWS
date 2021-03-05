@@ -10,6 +10,12 @@ namespace RWS.Data.DataSources
 
 		private readonly string _connectionString;
 		private readonly string _path;
+		
+		// TODO[EK]: shareName => settings
+		private const string ShareName = "sample-share";
+		private const string DefaultDirName = "DefaultDirName";
+		private string DirName => new FileInfo(_path).Directory?.Name ?? DefaultDirName;
+		private string FileName => Path.GetFileName(_path);
 
 		public AzureFileDataSource(string path, string appSettingsAzureConnectionString)
 		{
@@ -19,23 +25,14 @@ namespace RWS.Data.DataSources
 
 		public string GetData()
 		{
-
-			// Name of the share, directory, and file we'll download from
-			const string shareName = "sample-share";
-			const string dirName = "sample-dir";
-			const string fileName = "sample-file";
-
-			// Path to the save the downloaded file
-			const string localFilePath = @"<path_to_local_file>";
-
 			// Get a reference to the file
-			var share = new ShareClient(_connectionString, shareName);
-			ShareDirectoryClient directory = share.GetDirectoryClient(dirName);
-			ShareFileClient file = directory.GetFileClient(fileName);
+			var share = new ShareClient(_connectionString, ShareName);
+			ShareDirectoryClient directory = share.GetDirectoryClient(DirName);
+			ShareFileClient file = directory.GetFileClient(FileName);
 
 			// Download the file
 			ShareFileDownloadInfo download = file.Download();
-			using FileStream stream = File.OpenWrite(localFilePath);
+			using FileStream stream = File.OpenWrite(_path);
 			download.Content.CopyTo(stream);
 			
 			var reader = new StreamReader( stream );
@@ -45,32 +42,16 @@ namespace RWS.Data.DataSources
 
 		public void WriteData(string str)
 		{
-
-			// Name of the share, directory, and file we'll create
-			// TODO[EK]: shareName => settings
-			string shareName = "sample-share";
-			string dirName = Path.GetDirectoryName(_path);
-			string fileName = Path.GetFileName(_path);
-
 			// Get a reference to a share and then create it
-			var share = new ShareClient(_connectionString, shareName);
-			try
-			{
-				// Try to create the share again
-				share.Create();
-			}
-			catch (RequestFailedException ex)
-				when (ex.ErrorCode == ShareErrorCode.ShareAlreadyExists)
-			{
-				// Ignore any errors if the share already exists
-			}
+			var share = new ShareClient(_connectionString, ShareName);
+			share.CreateIfNotExists();
 
 			// Get a reference to a directory and create it
-			ShareDirectoryClient directory = share.GetDirectoryClient(dirName);
-			directory.Create();
+			ShareDirectoryClient directory = share.GetDirectoryClient(DirName);
+			directory.CreateIfNotExists();
 
 			// Get a reference to a file and upload it
-			ShareFileClient file = directory.GetFileClient(fileName);
+			ShareFileClient file = directory.GetFileClient(FileName);
 			using Stream stream = GenerateStreamFromString(str);
 			file.Create(stream.Length);
 			file.UploadRange(new HttpRange(0, stream.Length), stream);
