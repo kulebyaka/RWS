@@ -7,6 +7,9 @@ namespace RWS.ConsoleApp
 	{
 		static void Main(string[] args)
 		{
+			var startup = new Startup();
+			var service = startup.Provider.GetRequiredService<IMainService>();
+			service.Convert();
 		}
 	}
 }
