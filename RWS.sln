@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWS.ConsoleApp", "RWS.Conso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWS.Test", "RWS.Test\RWS.Test.csproj", "{6EC4B65E-8D8D-4FF5-8ABA-88EFF7267C56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWS.Data", "RWS.Data\RWS.Data.csproj", "{4F96D02A-787B-4232-80CB-CE3187F6EBA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{6EC4B65E-8D8D-4FF5-8ABA-88EFF7267C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EC4B65E-8D8D-4FF5-8ABA-88EFF7267C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EC4B65E-8D8D-4FF5-8ABA-88EFF7267C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F96D02A-787B-4232-80CB-CE3187F6EBA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F96D02A-787B-4232-80CB-CE3187F6EBA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F96D02A-787B-4232-80CB-CE3187F6EBA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F96D02A-787B-4232-80CB-CE3187F6EBA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
