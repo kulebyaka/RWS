@@ -41,21 +41,19 @@ namespace RWS.ConsoleApp
 			var services = new ServiceCollection();
 			services.AddSingleton<IConfiguration>(_configuration);
 			
-			services.AddTransient(s => new AzureFileDataSource(AppSettings.AzureConnectionString));
-			services.AddTransient(s => new FileSystemDataSource(AppSettings.InputPath));
-			services.AddTransient(s => new JsonSerializer());
-			services.AddTransient(s => new XmlSerializer());
+			services.AddScoped<IDataSourceReader, FileSystemDataSource>(_ => new FileSystemDataSource(AppSettings.InputPath));
+			services.AddScoped<IDataSourceWriter, AzureFileDataSource>(_ => new AzureFileDataSource(AppSettings.OutputPath, AppSettings.AzureConnectionString));
 			
-			services.AddSingleton<IFactory<DataSerializerType, IDataSerialize>>
-				(serviceprovider => new DataSerializerFactory(new Dictionary<DataSerializerType, Func<IDataSerialize>>() {
+			services.AddTransient(_ => new JsonSerializer());
+			services.AddTransient(_ => new XmlSerializer());
+
+			services.AddTransient<IInputSettings, InputSettings>(_ => new InputSettings() {Type = AppSettings.InputFileType});
+			services.AddTransient<IOutputSettings, OutputSettings>(_ => new OutputSettings() {Type = AppSettings.OutputFileType});
+
+			services.AddSingleton<IFactory<DataSerializerType, IDataSerializer>>
+				(serviceprovider => new DataSerializerFactory(new Dictionary<DataSerializerType, Func<IDataSerializer>>() {
 					{ DataSerializerType.Json, serviceprovider.GetService<JsonSerializer> },
 					{ DataSerializerType.Xml, serviceprovider.GetService<XmlSerializer> }
-				}));
-			
-			services.AddSingleton<IFactory<DataSourceType, IDataSource>>
-				(serviceprovider => new DataSourceFactory(new Dictionary<DataSourceType, Func<IDataSource>>() {
-					{ DataSourceType.AzureStorage, serviceprovider.GetService<AzureFileDataSource> },
-					{ DataSourceType.FileSystem, serviceprovider.GetService<FileSystemDataSource> }
 				}));
 
 			services.AddScoped<IMainService, MainService>();
@@ -63,7 +61,5 @@ namespace RWS.ConsoleApp
 			// build the pipeline
 			_provider = services.BuildServiceProvider();
 		}
-
-		
 	}
 }

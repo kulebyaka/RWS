@@ -9,10 +9,12 @@ namespace RWS.Data.DataSources
 	{
 
 		private readonly string _connectionString;
+		private readonly string _path;
 
-		public AzureFileDataSource(string connectionString)
+		public AzureFileDataSource(string path, string appSettingsAzureConnectionString)
 		{
-			_connectionString = connectionString;
+			_path = path;
+			_connectionString = appSettingsAzureConnectionString;
 		}
 
 		public string GetData()
@@ -45,9 +47,10 @@ namespace RWS.Data.DataSources
 		{
 
 			// Name of the share, directory, and file we'll create
+			// TODO[EK]: shareName => settings
 			string shareName = "sample-share";
-			string dirName = "sample-dir";
-			string fileName = "sample-file";
+			string dirName = Path.GetDirectoryName(_path);
+			string fileName = Path.GetFileName(_path);
 
 			// Get a reference to a share and then create it
 			var share = new ShareClient(_connectionString, shareName);

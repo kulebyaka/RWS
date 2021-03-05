@@ -3,7 +3,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace RWS.Data.Serializers
 {
-	public class JsonSerializer : IDataSerialize
+	public class JsonSerializer : IDataSerializer
 	{
 		public T Deserialize<T>(string serializedData) where T : class, new()
 		{

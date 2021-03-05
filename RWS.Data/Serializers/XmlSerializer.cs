@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace RWS.Data.Serializers
 {
-	public class XmlSerializer : IDataSerialize
+	public class XmlSerializer : IDataSerializer
 	{
 		public string Serialize(object data)
 		{
@@ -23,8 +23,7 @@ namespace RWS.Data.Serializers
 			var rdr = new StringReader(serializedData);
 			var xsSubmit = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-			var ttt = xsSubmit.Deserialize(rdr);
-			return (T)ttt;
+			return (T)xsSubmit.Deserialize(rdr);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace RWS.Data.Serializers
 {
-	public interface IDataSerialize
+	public interface IDataSerializer
 	{
 		/// <summary>
 		/// Serializes the specified data to string.

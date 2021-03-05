@@ -9,31 +9,52 @@ namespace RWS.Data.Services
 {
 	public class MainService : IMainService
 	{
-		private readonly IFactory<DataSerializerType, IDataSerialize> _dataSerialzeFactory;
-		private readonly IFactory<DataSourceType, IDataSource> _dataSourceFactory;
+		private readonly IFactory<DataSerializerType, IDataSerializer> _dataSerialzeFactory;
+		
+		private readonly IDataSourceReader _dataSourceReader;
+		private readonly IDataSourceWriter _dataSourceWriter;
+		private readonly IInputSettings _inputTypeSettings;
+		private readonly IOutputSettings _outputTypeSettings;
 
-		public MainService(IFactory<DataSerializerType, IDataSerialize> dataSerialzeFactory, IFactory<DataSourceType, IDataSource> dataSourceFactory)
+		public MainService(IFactory<DataSerializerType, IDataSerializer> dataSerialzeFactory, 
+			IDataSourceReader dataSourceReader, IDataSourceWriter dataSourceWriter, IInputSettings inputTypeSettings, IOutputSettings outputTypeSettings)
 		{
 			_dataSerialzeFactory = dataSerialzeFactory;
-			_dataSourceFactory = dataSourceFactory;
+			_dataSourceReader = dataSourceReader;
+			_dataSourceWriter = dataSourceWriter;
+			_inputTypeSettings = inputTypeSettings;
+			_outputTypeSettings = outputTypeSettings;
 		}
 
 		public void Convert()
 		{
-			
-			var inputType = DataSerializerType.Xml;
-			var outputType = DataSerializerType.Json;
-			var inputDataSource = DataSourceType.FileSystem;
-			var outputDataSource = DataSourceType.AzureStorage;
-
-			IDataSource inputReader = _dataSourceFactory.Create(inputDataSource);
-			string data = inputReader.GetData();
-			
-			var document = _dataSerialzeFactory.Create(inputType).Deserialize<Document>(data ?? "");
-			string outputString = _dataSerialzeFactory.Create(outputType).Serialize(document);
-			
-			IDataSource outputWriter = _dataSourceFactory.Create(outputDataSource);
-			outputWriter.WriteData(outputString);
+			string data = _dataSourceReader.GetData();
+			var document = _dataSerialzeFactory.Create(_inputTypeSettings.Type).Deserialize<Document>(data ?? "");
+			string outputString = _dataSerialzeFactory.Create(_outputTypeSettings.Type).Serialize(document);
+			_dataSourceWriter.WriteData(outputString);
 		}
 	}
+
+	public interface ITypeSettings
+	{
+		DataSerializerType Type { get; set; }
+	}
+	
+	public interface IInputSettings : ITypeSettings
+	{
+	}
+
+	public class InputSettings : IInputSettings
+	{
+		public DataSerializerType Type { get; set; }
+	}
+	public interface IOutputSettings : ITypeSettings
+	{
+	}
+	
+	public class OutputSettings : IOutputSettings
+	{
+		public DataSerializerType Type { get; set; }
+	}
+	
 }

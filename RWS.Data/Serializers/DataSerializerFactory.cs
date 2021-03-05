@@ -4,9 +4,9 @@ using RWS.Data.Abstractions;
 
 namespace RWS.Data.Serializers
 {
-	public class DataSerializerFactory : SimpleFactory<DataSerializerType, IDataSerialize>
+	public class DataSerializerFactory : SimpleFactory<DataSerializerType, IDataSerializer>
 	{
-		public DataSerializerFactory(IDictionary<DataSerializerType, Func<IDataSerialize>> factoryMap) : base(factoryMap)
+		public DataSerializerFactory(IDictionary<DataSerializerType, Func<IDataSerializer>> factoryMap) : base(factoryMap)
 		{
 		}
 	}
