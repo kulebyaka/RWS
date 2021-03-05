@@ -1,6 +1,6 @@
 # RWS Moravia homework 
-## Data Converter Console application
-Version: 2020-04-08
+## :bug: Data Converter (console application) :bug:
+Version: 2020-05-03
 ### Prerequisites
 
 You need an [Azure subscription][azure_sub] and
@@ -17,9 +17,13 @@ Get a connection string to our Azure Storage account.  You can
 obtain your connection string from the Azure Portal (click
 Access Keys under Settings in the Portal Storage account blade)
 or using the Azure CLI with:
+
 ```Powershell
 az storage account show-connection-string --name <account_name> --resource-group <resource_group>
 ```
+
+After that all you have to do is add the connection string to the *appsettings.development.json* file
+
 [azure_sub]: https://azure.microsoft.com/
 
 ### Initial state of application
@@ -75,4 +79,17 @@ namespace Moravia.Homework
     }
 }
 ```
+At least 5 potential problems with the code and the reason for their appearance:
 
+- This code doesn't even compile (the variable is defined in the try block and used outside of it)
+- Variables reader, sourceStream, targetStream and sw are defined without "using" keyword. 
+  This may cause memory leaks.
+- The try catch blocks do nothing but hide the exception type when it occurs.
+  At the same time these blocks do not cover several lines of code where exceptions are possible.
+  This can make debugging of the application very difficult.
+- Formatting and code style problems: using var keyword and type mixed up when declaring variables, 
+  unnecessary using System.Collections.Generic; at the beginning of the file, 
+  a few "magic strings", several empty lines which don't have any function. 
+  This code is difficult to read and maintain.
+- None of the best practices were applied while writing this code. 
+  The functionality of that code is hard to extend and configure.
