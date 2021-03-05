@@ -79,7 +79,7 @@ namespace Moravia.Homework
     }
 }
 ```
-####At least 5 potential problems with the code and the reason for their appearance:
+### At least 5 potential problems with the code and the reason for their appearance:
 
 - This code doesn't even compile (the variable is defined in the try block and used outside of it)
 - Variables reader, sourceStream, targetStream and sw are defined without "using" keyword. 
@@ -95,7 +95,7 @@ namespace Moravia.Homework
   The functionality of that code is hard to extend and configure.
   
 
-####TODO list:
+### TODO list:
 - Logging
 - Exception handling
 - Increase code coverage by unit tests
